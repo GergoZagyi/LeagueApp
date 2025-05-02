@@ -2,7 +2,7 @@
 
 import { useState } from 'react'; 
 import SearchBar from "./searchbar";
-
+import SearchResults from "./searchResults/searchresults"
 export default function Home() {
   const [summonerName, setSummonerName] = useState(''); 
   const [summonerTag, setSummonerTag] = useState('');
@@ -15,11 +15,13 @@ export default function Home() {
     console.log("I am data coming from page.tsx", data);
   };
 
+
   return (
     <div>
       <h1 className="text-4xl font-bold text-center mt-8">League Profile Showcase</h1>
       <p className="text-center mt-4">Show off your League of Legends profile with style.</p>
       <SearchBar onSearch={handleSearch} />
+      <SearchResults/>
     </div>
   );
 }
