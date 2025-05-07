@@ -5,7 +5,38 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const summonerName = searchParams.get('summoner');
   const summonerTag = searchParams.get('tag');
-  const response = await fetch(`https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${summonerName}/${summonerTag}?api_key=${apiKey}`);
-  const data = await response.json();
-  return NextResponse.json(data);
+
+  /* Get puuid */
+  const accountRes = await fetch(`https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${summonerName}/${summonerTag}?api_key=${apiKey}`);
+  const accountData = await accountRes.json();
+  const puuid = accountData.puuid;
+
+  /* Get last 10 match IDs */
+  const matchesRes = await fetch(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10&api_key=${apiKey}`);
+  const matchIds: string[] = await matchesRes.json();
+
+  /* Get match details for each ID */
+  const matchDataPromises = matchIds.map(async (matchId) => {
+    const res = await fetch(`https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiKey}`);
+    const match = await res.json();
+
+    const participant = match.info.participants.find((p: any) => p.puuid === puuid);
+
+    return {
+      matchId,
+      win: participant.win,
+      kills: participant.kills,
+      deaths: participant.deaths,
+      assists: participant.assists,
+      goldEarned: participant.goldEarned,
+      totalMinionsKilled: participant.totalMinionsKilled,
+      champName: participant.championName,
+      role: participant.role,
+      lane: participant.lane,
+      gameDuration: match.info.gameDuration,
+    };
+  });
+
+  const matchStats = await Promise.all(matchDataPromises);
+  return NextResponse.json(matchStats);
 }

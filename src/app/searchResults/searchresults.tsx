@@ -1,25 +1,68 @@
 'use client'
+import { useState, useRef } from 'react';
+import './searchresults.css';
+import { motion, AnimatePresence } from 'framer-motion';
 
-type SearchResultsProps = {
-    puuid: string;
-}
+type MatchHistoryProps = {
+    matchHistory: any[]; 
+};
 
-export default function SearchResults({puuid}: SearchResultsProps){
-
-    const handleMatchFetch = async ()=>{
-        const response = await fetch(`http://localhost:3000/api/getMatchData?puuid=${puuid}`)
-        const data = await response.json();
-        console.log(data)
-        console.log("I am puuid", puuid)
-    }
-
-    return(
-        <div>
-            <button
-            onClick={handleMatchFetch}
-            >
-                I AM SEARCH RESULTS
-            </button>
+export default function MatchHistory({ matchHistory }: MatchHistoryProps) {
+    const [startIndex, setStartIndex] = useState(0);
+    const visibleMatches = matchHistory.slice(startIndex, startIndex + 3);
+    const containerRef = useRef<HTMLDivElement>(null);
+    return (
+        
+        <div className='search-results-wrapper'>
+                <div className='search-results' ref={containerRef}>
+                    <h1>Match History</h1>
+                    <AnimatePresence mode="popLayout">
+                    {visibleMatches.map((match, index) => {
+                        const isFirst = index === 0;
+                        const isLast = index === visibleMatches.length - 1;
+                        
+                        const handleClick = () => {
+                            if (containerRef.current) {
+                                const scrollY = window.scrollY;
+                                
+                                if (isFirst && startIndex > 0) {
+                                    setStartIndex(startIndex - 1);
+                                } else if (isLast && startIndex + 3 < matchHistory.length) {
+                                    setStartIndex(startIndex + 1);
+                                }
+                                window.scrollTo({ top: scrollY });
+                            }
+                        };
+                        return (
+                            <motion.div
+                                key={startIndex + index}
+                                layout
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -50 }}
+                                transition={{ duration: 0.3 }}
+                                className={`search-results-item ${isFirst || isLast  ? 'side-item' : ''}`}
+                                onClick={isFirst || isLast ? handleClick : undefined}
+                                style={{ cursor: isFirst || isLast ? 'pointer' : 'default' }}
+                            >
+                                <h2>{match.champName}</h2>
+                                <p className={match.win ? 'win' : 'lose'}>{match.win ? 'Win' : 'Lose'}</p>
+                                <div className='search-results-item-details'>
+                                    <div className='first-row'>
+                                        <p>KDA {match.kills}/{match.deaths}/{match.assists}</p>
+                                        <p>Gold: {match.goldEarned}</p>
+                                        <p>CS: {match.totalMinionsKilled}</p>
+                                    </div>
+                                    <div className='second-row'>
+                                        <p>Role: {match.role}</p>
+                                        <p>Duration: {Math.floor(match.gameDuration / 60)}:{match.gameDuration % 60}</p>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        );
+                    })}
+                </AnimatePresence>
+                </div>
         </div>
-    )
+    );
 }

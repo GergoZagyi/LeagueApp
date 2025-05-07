@@ -1,4 +1,6 @@
 'use client';
+
+import "./searchbar.css";
 import { useState } from "react";
 
 type SearchBarProps ={
@@ -22,7 +24,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     }
 
     return (
-        <div>
+        <div className="searchbar-container">
         <input
             onChange={handleNameChange}
             type="text"
