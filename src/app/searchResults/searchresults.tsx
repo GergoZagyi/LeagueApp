@@ -21,6 +21,8 @@ export default function MatchHistory({ matchHistory }: MatchHistoryProps) {
                         const isFirst = index === 0;
                         const isLast = index === visibleMatches.length - 1;
                         
+                        const backgroundImageUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${match.champName}_0.jpg`;
+
                         const handleClick = () => {
                             if (containerRef.current) {
                                 const scrollY = window.scrollY;
@@ -43,7 +45,15 @@ export default function MatchHistory({ matchHistory }: MatchHistoryProps) {
                                 transition={{ duration: 0.3 }}
                                 className={`search-results-item ${isFirst || isLast  ? 'side-item' : ''}`}
                                 onClick={isFirst || isLast ? handleClick : undefined}
-                                style={{ cursor: isFirst || isLast ? 'pointer' : 'default' }}
+                                style={{
+                                    cursor: isFirst || isLast ? 'pointer' : 'default',
+                                    backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.2)), url(${backgroundImageUrl})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    color: 'white',
+                                    position: 'relative'
+                                }}
+
                             >
                                 <h2>{match.champName}</h2>
                                 <p className={match.win ? 'win' : 'lose'}>{match.win ? 'Win' : 'Lose'}</p>
