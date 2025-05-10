@@ -11,6 +11,7 @@ export default function MatchHistory({ matchHistory }: MatchHistoryProps) {
     const [startIndex, setStartIndex] = useState(0);
     const visibleMatches = matchHistory.slice(startIndex, startIndex + 3);
     const containerRef = useRef<HTMLDivElement>(null);
+
     return (
         
         <div className='search-results-wrapper'>
@@ -56,16 +57,34 @@ export default function MatchHistory({ matchHistory }: MatchHistoryProps) {
 
                             >
                                 <h2>{match.champName}</h2>
-                                <p className={match.win ? 'win' : 'lose'}>{match.win ? 'Win' : 'Lose'}</p>
+                                <p className={match.win ? 'win' : 'lose'}>{match.win ? 'Victory' : 'Defeat'}</p>
                                 <div className='search-results-item-details'>
-                                    <div className='first-row'>
-                                        <p>KDA {match.kills}/{match.deaths}/{match.assists}</p>
-                                        <p>Gold: {match.goldEarned}</p>
-                                        <p>CS: {match.totalMinionsKilled}</p>
+                                    <div className='first-column'>
+                                        <h3 className="first-column-row">Jungle</h3>
+                                        <h3 className="first-column-row">7.82 KDA</h3>
                                     </div>
-                                    <div className='second-row'>
-                                        <p>Role: {match.role}</p>
-                                        <p>Duration: {Math.floor(match.gameDuration / 60)}:{match.gameDuration % 60}</p>
+                                    <div className='second-column'>
+                                        <div id='grade'>
+                                            <h3>S+</h3>
+                                        </div>
+                                        <div id='performance'>
+                                            <div className="performance-row">
+                                                <h5 className='performance-row-title'>Gold</h5>
+                                                <h5>{match.goldEarned}</h5>
+                                            </div>
+                                            <div className="performance-row">
+                                                <h5 className='performance-row-title'>Creep Score</h5>
+                                                <h5>{match.totalMinionsKilled}</h5>
+                                            </div>
+                                            <div className="performance-row">
+                                                <h5 className='performance-row-title'>Vision Score</h5>
+                                                <h5>52</h5>
+                                            </div>
+                                            <div className="performance-row">
+                                                <h5 className='performance-row-title'>Something else</h5>
+                                                <h5>78</h5>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </motion.div>
