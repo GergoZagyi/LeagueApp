@@ -131,6 +131,33 @@
     color: red;
     font-weight: normal;
 }
+.low-kda{
+    color: red;
+}
+.average-kda{
+    color: #ff914d;
+}
+.high-kda{
+    color: green;
+}
+.support{
+    color: #bd0570;
+}
+.carry{
+    color: #001fa7;
+}
+.solo{
+    color: #eeff02;
+}
+.duo{
+    color: #0170a3;
+}
+.jungle{
+    color: #00810b;
+}
+.mid{
+    color: #ff3737;
+}
 .side-item{
     transform: scale(0.8);
     width: 550px;

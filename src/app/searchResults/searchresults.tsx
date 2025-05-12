@@ -21,21 +21,24 @@ export default function MatchHistory({ matchHistory }: MatchHistoryProps) {
                     {visibleMatches.map((match, index) => {
                         const isFirst = index === 0;
                         const isLast = index === visibleMatches.length - 1;
-                        
+                        const KDA : number = ((match.kills + match.assists) / match.deaths).toFixed(2);
                         const backgroundImageUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${match.champName}_0.jpg`;
-
+                        
                         const handleClick = () => {
-                            if (containerRef.current) {
-                                const scrollY = window.scrollY;
-                                
-                                if (isFirst && startIndex > 0) {
-                                    setStartIndex(startIndex - 1);
-                                } else if (isLast && startIndex + 3 < matchHistory.length) {
-                                    setStartIndex(startIndex + 1);
-                                }
-                                window.scrollTo({ top: scrollY });
+                            const scrollY = window.scrollY;
+
+                            if (isFirst) {
+                                setStartIndex((prevIndex) =>
+                                prevIndex === 0 ? matchHistory.length - 3 : prevIndex - 1
+                                );
+                            } else if (isLast) {
+                                setStartIndex((prevIndex) =>
+                                prevIndex + 3 >= matchHistory.length ? 0 : prevIndex + 1
+                                );
                             }
-                        };
+
+                            window.scrollTo({ top: scrollY });
+                            };
                         return (
                             <motion.div
                                 key={startIndex + index}
@@ -60,8 +63,8 @@ export default function MatchHistory({ matchHistory }: MatchHistoryProps) {
                                 <p className={match.win ? 'win' : 'lose'}>{match.win ? 'Victory' : 'Defeat'}</p>
                                 <div className='search-results-item-details'>
                                     <div className='first-column'>
-                                        <h3 className="first-column-row">Jungle</h3>
-                                        <h3 className="first-column-row">7.82 KDA</h3>
+                                        <h3 className="first-column-row">{match.role}</h3>
+                                        <h3 className={`first-column-row ${KDA > 6 ? 'high-kda' : ''} ${KDA < 3 ? 'low-kda' : ''} ${KDA > 3 && KDA < 6 ? 'average-kda' : ''}`}>{KDA} KDA</h3>
                                     </div>
                                     <div className='second-column'>
                                         <div id='grade'>
