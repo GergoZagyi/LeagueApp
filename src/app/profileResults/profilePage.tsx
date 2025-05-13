@@ -21,8 +21,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ profileData }) => {
   const totalKills = kills.reduce((acc: number, curr: number) => acc + curr, 0);
   const totalDeaths = deaths.reduce((acc: number, curr: number) => acc + curr, 0);
   const totalAssists = assists.reduce((acc: number, curr: number) => acc + curr, 0);
-  const totalGold = goldEarned.reduce((acc: number, curr: number) => acc + curr, 0);
-  const totalCs = cs.reduce((acc: number, curr: number) => acc + curr, 0);
+
 
   const kda = ((totalKills + totalAssists) / (totalDeaths || 1)).toFixed(2);
 

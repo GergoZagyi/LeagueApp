@@ -31,7 +31,7 @@ export default function Home() {
     const profileData = await profileResponse.json();
     setProfileData(profileData);  
   };
-
+  console.log(summonerName, summonerTag, puuid);
   return (
     <div className="home-container">
       <h1>League Profile Showcase</h1>

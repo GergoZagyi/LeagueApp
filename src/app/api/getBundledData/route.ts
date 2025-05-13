@@ -34,7 +34,23 @@ export async function GET(req:Request){
     const res = await fetch(`https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiKey}`);
     const match = await res.json();
 
-    const participant = match.info.participants.find((p: any) => p.puuid === puuid);
+    interface Participant {
+        puuid: string;
+        kills: number;
+        deaths: number;
+        assists: number;
+        goldEarned: number;
+        totalMinionsKilled: number;
+        championName: string;
+        champLevel: number;
+        totalDamageDealtToChampions: number;
+        totalDamageTaken: number;
+        wardsPlaced: number;
+        wardsKilled: number;
+        win: boolean;
+    }
+
+    const participant = match.info.participants.find((p: Participant) => p.puuid === puuid);
     if (!participant) continue;
 
     kills.push(participant.kills);
