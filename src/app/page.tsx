@@ -1,35 +1,33 @@
 'use client';
-import "./global.css"
-import { useState } from 'react'; 
-import SearchBar from "./searchbar";
-import SearchResults from "./searchResults/searchresults";
-import Profile from "./profileResults/page.tsx"
-import { profile } from "console";
+import './global.css';
+import { useState } from 'react';
+import SearchBar from './searchbar';
+import SearchResults from './searchResults/searchresults';
+import Profile, { ProfileData } from './profileResults/page';
 
 export default function Home() {
-  const [summonerName, setSummonerName] = useState(''); 
+  const [summonerName, setSummonerName] = useState('');
   const [summonerTag, setSummonerTag] = useState('');
   const [puuid, setPuuid] = useState('');
 
-  const [matchHistory, setMatchHistory] = useState([]); 
-  const [profileDataArray, setProfileDataArray] = useState([]);
+  const [matchHistory, setMatchHistory] = useState([]);
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
 
   const [activeSection, setActiveSection] = useState<'matchHistory' | 'profile' | null>(null);
 
   const handleSearch = async (summonerName: string, summonerTag: string) => {
-    setSummonerName(summonerName); 
+    setSummonerName(summonerName);
     setSummonerTag(summonerTag);
     setActiveSection('matchHistory');
 
-    const response = await fetch(`http://localhost:3000/api/getSummonerData?summoner=${summonerName}&tag=${summonerTag}`);
+    const response = await fetch(`/api/getSummonerData?summoner=${summonerName}&tag=${summonerTag}`);
     const data = await response.json();
     setPuuid(data.puuid);
     setMatchHistory(data);
 
-    const profileResponse = await fetch(`http://localhost:3000/api/getBundledData?summoner=${summonerName}&tag=${summonerTag}`);
+    const profileResponse = await fetch(`/api/getBundledData?summoner=${summonerName}&tag=${summonerTag}`);
     const profileData = await profileResponse.json();
-    setProfileDataArray(profileData);
-
+    setProfileData(profileData);
   };
 
   return (
@@ -49,8 +47,8 @@ export default function Home() {
         <SearchResults matchHistory={matchHistory} />
       )}
 
-      {activeSection === 'profile' && (
-        <Profile profileDataArray={profileDataArray} profileData={profileDataArray} />
+      {activeSection === 'profile' && profileData && (
+        <Profile profileData={profileData} />
       )}
     </div>
   );

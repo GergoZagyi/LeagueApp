@@ -11,3 +11,16 @@
     border-radius: 5px;
     margin-right: 10px;
 }
+
+/* media queries */
+
+@media (max-width: 768px) {
+    .searchbar-container{
+        flex-direction: column;
+        align-items: center;
+    }
+    .searchbar-container input[type="text"]{
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}

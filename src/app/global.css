@@ -13,7 +13,8 @@ html, body{
 }
 body{
     background: url('../../public/img/bacgkround_edited_1.png') no-repeat;
-    height: 150vh;
+    min-height: 100vh;
+    height: 100%;
     background-size: cover;
     background-attachment: fixed;
 }
@@ -26,6 +27,7 @@ body{
     justify-content: center;
     align-items: center;
     padding-top:  50px;
+    overflow: hidden;
 }
 .home-container h1{
     font-size: 2.5rem;
@@ -47,4 +49,20 @@ body{
 .home-container button:hover{
     background-color: rgba(31, 31, 90, 1);
     transition: background-color 0.3s ease;
+}
+
+/* media queries */
+
+@media (max-width: 768px) {
+    .home-container h1{
+        font-size: 1.5rem;
+    }
+    .home-container p{
+        text-align: center;
+    }
+
+    .home-container button{
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
 }

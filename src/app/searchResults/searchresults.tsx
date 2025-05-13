@@ -8,7 +8,7 @@ type MatchHistoryProps = {
 };
 
 export default function MatchHistory({ matchHistory }: MatchHistoryProps) {
-  const [middleIndex, setMiddleIndex] = useState(0); // focus is always middle
+  const [middleIndex, setMiddleIndex] = useState(0); 
   const containerRef = useRef<HTMLDivElement>(null);
 
   const total = matchHistory.length;
@@ -17,11 +17,15 @@ export default function MatchHistory({ matchHistory }: MatchHistoryProps) {
     return (index + total) % total;
   };
 
+  if (!matchHistory || total === 0) {
+    return <div className="search-results-wrapper">No match history available.</div>;
+  }
+
   const visibleMatches = [
     matchHistory[getWrappedIndex(middleIndex - 1)],
     matchHistory[getWrappedIndex(middleIndex)],
     matchHistory[getWrappedIndex(middleIndex + 1)],
-  ];
+  ].filter(Boolean); 
 
   const handleClick = (direction: 'prev' | 'next') => {
     const scrollY = window.scrollY;
@@ -39,10 +43,13 @@ export default function MatchHistory({ matchHistory }: MatchHistoryProps) {
         <h1>Match History</h1>
         <AnimatePresence mode='popLayout'>
           {visibleMatches.map((match, index) => {
+            if (!match) return null;
+
             const isMiddle = index === 1;
             const isFirst = index === 0;
             const isLast = index === 2;
-            const KDA: number = +((match.kills + match.assists) / match.deaths).toFixed(2);
+            const deaths = match.deaths || 1; // avoid division by zero
+            const KDA: number = +((match.kills + match.assists) / deaths).toFixed(2);
 
             const backgroundImageUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${match.champName}_0.jpg`;
 

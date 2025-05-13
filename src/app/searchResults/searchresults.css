@@ -16,8 +16,9 @@
     align-items: center;
     justify-content: center;
     width: 75%;
-    max-height: 900px;
-    overflow: hidden;
+    max-height: 90vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 .search-results-item{
     width: 650px;
@@ -162,6 +163,7 @@
     transform: scale(0.8);
     width: 550px;
     height: 200px;
+    transition: all 0.2s ease-in-out;
 }
 .side-item .second-column, .side-item .first-column, .side-item p, .side-item h2{
     display: none;
@@ -171,4 +173,21 @@
     opacity: 1;
     transform: scale(0.9);
     transition: all 0.2s ease-in-out;
+}
+
+
+
+/* media queries */
+
+@media (max-width: 768px) {
+    .search-results-item{
+        width: 250px;
+        height: 150px;
+    }
+    .first-column{
+        display: none;
+    }
+    .second-column{
+        display: none;
+    }
 }

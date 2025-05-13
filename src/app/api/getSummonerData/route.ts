@@ -15,14 +15,13 @@ export async function GET(req: Request) {
   const matchesRes = await fetch(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10&api_key=${apiKey}`);
   const matchIds: string[] = await matchesRes.json();
   console.log("matchIds: ", matchIds);
-
+  
   /* Get match details for each matchID */
   const matchDataPromises = matchIds.map(async (matchId) => {
     const res = await fetch(`https://europe.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${apiKey}`);
     const match = await res.json();
 
     const participant = match.info.participants.find((p: any) => p.puuid === puuid);
-
     return {
       matchId,
       win: participant.win,
