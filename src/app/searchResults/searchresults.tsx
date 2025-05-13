@@ -4,7 +4,17 @@ import './searchresults.css';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type MatchHistoryProps = {
-  matchHistory: any[];
+  matchHistory: {
+    gameId: string;
+    champName: string;
+    kills: number;
+    deaths: number;
+    assists: number;
+    win: boolean;
+    role: string;
+    goldEarned: number;
+    totalMinionsKilled: number;
+  }[];
 };
 
 export default function MatchHistory({ matchHistory }: MatchHistoryProps) {
