@@ -8,6 +8,8 @@ import {
   LineElement,
   Tooltip,
   Legend,
+  ChartOptions,
+  ChartData,
 } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
@@ -20,7 +22,7 @@ type Props = {
 export default function GoldCsChart({ gold, cs }: Props) {
   const labels = Array.from({ length: gold.length }, (_, i) => `Game ${i + 1}`);
 
-  const data = {
+  const data: ChartData<'line'> = {
     labels,
     datasets: [
       {
@@ -30,7 +32,7 @@ export default function GoldCsChart({ gold, cs }: Props) {
         backgroundColor: '#facc15',
         tension: 0.3,
         fill: false,
-        yAxisID: 'y1', 
+        yAxisID: 'y1',
       },
       {
         label: 'CS',
@@ -39,12 +41,12 @@ export default function GoldCsChart({ gold, cs }: Props) {
         backgroundColor: '#3b82f6',
         tension: 0.3,
         fill: false,
-        yAxisID: 'y2', 
+        yAxisID: 'y2',
       },
     ],
   };
 
-  const options = {
+  const options: ChartOptions<'line'> = {
     responsive: true,
     scales: {
       y1: {
@@ -54,10 +56,8 @@ export default function GoldCsChart({ gold, cs }: Props) {
       y2: {
         type: 'linear',
         position: 'right',
-        ticks: {
-          max: Math.max(...cs) + 5, // Adjust for CS scale
-          min: 0,
-        },
+        min: 0,
+        max: Math.max(...cs) + 5,
       },
     },
   };

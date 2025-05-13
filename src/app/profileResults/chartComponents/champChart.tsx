@@ -1,4 +1,3 @@
-// chartComponents/ChampPieChart.tsx
 'use client';
 
 import { Pie } from 'react-chartjs-2';
