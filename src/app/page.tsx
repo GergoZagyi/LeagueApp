@@ -1,9 +1,10 @@
+
 'use client';
 import './global.css';
 import { useState } from 'react';
 import SearchBar from './searchbar';
 import SearchResults from './searchResults/searchresults';
-import Profile, { ProfileData } from './profileResults/page';
+import Profile, { ProfileData } from './profileResults/page'; 
 
 export default function Home() {
   const [summonerName, setSummonerName] = useState('');
@@ -11,7 +12,7 @@ export default function Home() {
   const [puuid, setPuuid] = useState('');
 
   const [matchHistory, setMatchHistory] = useState([]);
-  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const [profileData, setProfileData] = useState<ProfileData | null>(null); 
 
   const [activeSection, setActiveSection] = useState<'matchHistory' | 'profile' | null>(null);
 
@@ -27,11 +28,11 @@ export default function Home() {
 
     const profileResponse = await fetch(`/api/getBundledData?summoner=${summonerName}&tag=${summonerTag}`);
     const profileData = await profileResponse.json();
-    setProfileData(profileData);
+    setProfileData(profileData);  
   };
 
   return (
-    <div className='home-container'>
+    <div className="home-container">
       <h1>League Profile Showcase</h1>
       <p>Search for your summoner name and tag to get your profile and history!</p>
       <SearchBar onSearch={handleSearch} />
@@ -43,12 +44,9 @@ export default function Home() {
         </div>
       )}
 
-      {activeSection === 'matchHistory' && (
-        <SearchResults matchHistory={matchHistory} />
-      )}
-
+      {activeSection === 'matchHistory' && <SearchResults matchHistory={matchHistory} />}
       {activeSection === 'profile' && profileData && (
-        <Profile profileData={profileData} />
+        <Profile profileData={profileData} /> 
       )}
     </div>
   );

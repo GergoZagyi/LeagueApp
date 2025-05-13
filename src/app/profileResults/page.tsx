@@ -15,11 +15,12 @@ export type ProfileData = {
   champName: string[];
 };
 
-type ProfileProps = {
-  profileData: ProfileData;
-};
+const Profile = ({ profileData }: { profileData: ProfileData | null }) => {
+  if (!profileData) {
+    console.log('Profile Data: ', profileData);
+    return <div>Loading...</div>;
+  }
 
-export default function Profile({ profileData }: ProfileProps) {
   const { kills, deaths, assists, goldEarned, cs, wardsPlaced, wardsKilled, champName } = profileData;
 
   const totalKills = kills.reduce((acc, curr) => acc + curr, 0);
@@ -27,7 +28,13 @@ export default function Profile({ profileData }: ProfileProps) {
   const totalAssists = assists.reduce((acc, curr) => acc + curr, 0);
   const totalGold = goldEarned.reduce((acc, curr) => acc + curr, 0);
   const totalCs = cs.reduce((acc, curr) => acc + curr, 0);
+
   const kda = ((totalKills + totalAssists) / (totalDeaths || 1)).toFixed(2);
+
+  function loggingProfileData() {
+    console.log('Profile Data: ', profileData);
+  }
+  loggingProfileData();
 
   return (
     <div className="profile-wrapper">
@@ -61,4 +68,6 @@ export default function Profile({ profileData }: ProfileProps) {
       </div>
     </div>
   );
-}
+};
+
+export default Profile;
