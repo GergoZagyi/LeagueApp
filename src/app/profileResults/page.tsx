@@ -1,21 +1,15 @@
 import './profile.css';
+import { ProfileData } from './profile'; // Assuming the path is correct for ProfileData
 import KdaChart from './chartComponents/kdaChart';
 import GoldCsChart from './chartComponents/goldCsChart';
 import VisionChart from './chartComponents/visionChart';
 import ChampPieChart from './chartComponents/champChart';
 
-export type ProfileData = {
-  kills: number[];
-  deaths: number[];
-  assists: number[];
-  goldEarned: number[];
-  cs: number[];
-  wardsPlaced: number[];
-  wardsKilled: number[];
-  champName: string[];
-};
+interface ProfilePageProps {
+  profileData: ProfileData | null;
+}
 
-const Profile = ({ profileData }: { profileData: ProfileData | null }) => {
+const ProfilePage: React.FC<ProfilePageProps> = ({ profileData }) => {
   if (!profileData) {
     console.log('Profile Data: ', profileData);
     return <div>Loading...</div>;
@@ -30,11 +24,6 @@ const Profile = ({ profileData }: { profileData: ProfileData | null }) => {
   const totalCs = cs.reduce((acc, curr) => acc + curr, 0);
 
   const kda = ((totalKills + totalAssists) / (totalDeaths || 1)).toFixed(2);
-
-  function loggingProfileData() {
-    console.log('Profile Data: ', profileData);
-  }
-  loggingProfileData();
 
   return (
     <div className="profile-wrapper">
@@ -70,4 +59,4 @@ const Profile = ({ profileData }: { profileData: ProfileData | null }) => {
   );
 };
 
-export default Profile;
+export default ProfilePage;
