@@ -4,7 +4,8 @@ import './global.css';
 import { useState } from 'react';
 import SearchBar from './searchbar';
 import SearchResults from './searchResults/searchresults';
-import Profile, { ProfileData } from './profileResults/page'; 
+import Profile from './profileResults/page'; 
+import { ProfileData } from './profileResults/profileTypes';
 
 export default function Home() {
   const [summonerName, setSummonerName] = useState('');

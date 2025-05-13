@@ -1,9 +1,10 @@
 import './profile.css';
-import { ProfileData } from './profile'; // Assuming the path is correct for ProfileData
+import { ProfileData } from './profileTypes';
 import KdaChart from './chartComponents/kdaChart';
 import GoldCsChart from './chartComponents/goldCsChart';
 import VisionChart from './chartComponents/visionChart';
 import ChampPieChart from './chartComponents/champChart';
+
 
 interface ProfilePageProps {
   profileData: ProfileData | null;
@@ -17,11 +18,11 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ profileData }) => {
 
   const { kills, deaths, assists, goldEarned, cs, wardsPlaced, wardsKilled, champName } = profileData;
 
-  const totalKills = kills.reduce((acc, curr) => acc + curr, 0);
-  const totalDeaths = deaths.reduce((acc, curr) => acc + curr, 0);
-  const totalAssists = assists.reduce((acc, curr) => acc + curr, 0);
-  const totalGold = goldEarned.reduce((acc, curr) => acc + curr, 0);
-  const totalCs = cs.reduce((acc, curr) => acc + curr, 0);
+  const totalKills = kills.reduce((acc: number, curr: number) => acc + curr, 0);
+  const totalDeaths = deaths.reduce((acc: number, curr: number) => acc + curr, 0);
+  const totalAssists = assists.reduce((acc: number, curr: number) => acc + curr, 0);
+  const totalGold = goldEarned.reduce((acc: number, curr: number) => acc + curr, 0);
+  const totalCs = cs.reduce((acc: number, curr: number) => acc + curr, 0);
 
   const kda = ((totalKills + totalAssists) / (totalDeaths || 1)).toFixed(2);
 
